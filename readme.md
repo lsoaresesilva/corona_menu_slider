@@ -7,6 +7,7 @@ CopyRight (C) 2017 - Leonardo Soares e Silva - lsoaresesilva@gmail.com
 Use this library to create left side menus on Corona Labs SDK. 
 These menus are very popular on Business Apps, and you can find examples on all Google's apps for Android, TripAdivisor, and others.
 
+
 ## Instalation
 
 Just copy menu_slider.lua to your Corona project's folder.
@@ -42,6 +43,11 @@ local newMenu = menu:new({
     })
 
 ```
+
+![alt tag](![alt tag](http://i36.photobucket.com/albums/e43/leonardo_soares4/slider01_zps6mjsjzlj.png)
+
+![alt tag](![alt tag](http://i36.photobucket.com/albums/e43/leonardo_soares4/slider02_zpsybnrdtwg.png)
+
 * Top container with image
 
 ```lua
@@ -62,3 +68,4 @@ local newMenu = menu:new({
     })
 ```
 And it is done.
+
