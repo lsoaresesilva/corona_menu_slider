@@ -122,6 +122,7 @@ function menu:createTopContainer(options)
     self.menuTopContainer.trigger:insert(dashTwo)
     self.menuTopContainer.trigger:insert(dashThree)
 
+    self.menuTopGroup:insert(self.menuTopContainer.text)
     self.menuTopGroup:insert(self.menuTopContainer.trigger)
     -- its just a transparent rect to wrap the dashs and receive touch events
     local triggerRect = display.newRect(xBase, yBase, triggerWidth, 25)
