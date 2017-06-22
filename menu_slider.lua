@@ -88,6 +88,7 @@ function menu:createTopContainer(options)
         
         self.menuTopContainer:setFillColor(unpack(options.bgColor))
         self.menuTopContainer.text = display.newText({text=options.text, x=self.menuTopContainer.width*0.5, y=self.menuTopContainer.height*0.5, font=native.systemFontBold, fontSize=20})
+        
     else
         if options.imageHeight == nil or options.imageWidth == nil then
             error("If using image you must specify imageHeight and imageWidth")
@@ -121,7 +122,8 @@ function menu:createTopContainer(options)
     self.menuTopContainer.trigger:insert(dashOne)
     self.menuTopContainer.trigger:insert(dashTwo)
     self.menuTopContainer.trigger:insert(dashThree)
-
+    
+    self.menuTopGroup:insert(self.menuTopContainer.text)
     self.menuTopGroup:insert(self.menuTopContainer.trigger)
     -- its just a transparent rect to wrap the dashs and receive touch events
     local triggerRect = display.newRect(xBase, yBase, triggerWidth, 25)
@@ -266,16 +268,24 @@ function menu:setData()
     local rowHeight = 30
     local rowWidth = 200
     
-    
+   
 
     for i = 1, #self.data do
         
-        if self.data[i].text == nil or self.data[i].scene == nil then
-            error("Data for list must be a table with text and scene attributes")
+        if self.data[i].text == nil then
+            error("Data for list must be a table with text")
         end
 
         totalHeight = totalHeight + rowHeight
 
+    if self.data[i].params ~= nil then
+        for k,v in ipairs(self.data[i].params) do
+            print("valor")
+            print(k)
+        end
+
+    end
+        --print(self.data[i].callback)
         self.dataTable:insertRow{
             rowHeight = rowHeight,
             rowWidth= rowWidth,
@@ -283,7 +293,9 @@ function menu:setData()
             lineColor = { 0.90, 0.90, 0.90 },
             params = { 
                 text = self.data[i].text,
-                scene = self.data[i].scene
+                scene = self.data[i].scene,
+                params = self.data[i].params,
+                callback = self.data[i].callback
             }
         }
     end
@@ -301,6 +313,7 @@ function onRowRender( event )
     row.text = display.newText( row, row.params.text, 0, 0 )
     row.text:setFillColor(0.5)
     row.scene = row.params.scene
+    row.callback = row.params.callback
     row.text.anchorX = 0
     row.text.anchorY = 0
     --row.text:setFillColor( 0, 0, 1 )
@@ -325,6 +338,8 @@ function menu:new(options)
     options.containers.topContainerProperties.strokeColor = options.containers.topContainerProperties.strokeColor or {}
     options.containers.topContainerProperties.text = options.containers.topContainerProperties.text or ""
 
+    --print(options.data[3].params.nome)
+
     self:createContainers(options.containers)
     self:createDataTable(options.data)
     
@@ -343,17 +358,26 @@ end
 
 
 function onRowTouch( event )
-    
-    
+    print("funcao onRowTouch")
+    print(event.row.callback)
+
+    local options = { params = {params = event.row.params.params }}
 
     if event.row.scene ~= nil then
-        composer.gotoScene(event.row.scene)
+        composer.gotoScene(event.row.scene,options)
         menu:hide()
-    else -- this touch was not made on a list item
-
+    elseif event.row.callback ~= nil then --this touch is to execute the function
+        print("work")
+        event.row.callback()
     end
 end
 
+function menu:destroy()
+
+    self.menuTopGroup:removeSelf()
+    self.menuLeftGroup:removeSelf()
+
+end
 
 
 
