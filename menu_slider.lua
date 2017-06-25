@@ -122,6 +122,7 @@ function menu:createTopContainer(options)
     self.menuTopContainer.trigger:insert(dashOne)
     self.menuTopContainer.trigger:insert(dashTwo)
     self.menuTopContainer.trigger:insert(dashThree)
+
     
     self.menuTopGroup:insert(self.menuTopContainer.text)
     self.menuTopGroup:insert(self.menuTopContainer.trigger)
